@@ -107,7 +107,8 @@ def checkout(skus):
     for s in special:
         special_cnt += item_counter[s]
     summ += (special_cnt // 3) * 45  # Buy any 3 for 45
-    while special_cnt >= 3:
+    leftover = special_cnt % 3
+    while special_cnt > leftover:
         # Always favour customer, so we should deduct the cnt from the most expensive first
         for s in special:
             if item_counter[s] > 0:
@@ -151,6 +152,7 @@ def checkout(skus):
         summ += item_counter[item] * price_dct[item]
 
     return summ
+
 
 
 
