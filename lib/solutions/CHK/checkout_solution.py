@@ -19,8 +19,7 @@ def checkout(skus):
     | D    | 15    |                |
     +------+-------+----------------+
     """
-    # TODO: check if the input is split by space
-    skus_arr = skus.split(" ")
+    skus_arr = skus.split("")
     item_counter = {'A': 0, 'B': 0, 'C': 0, 'D': 0}
     for item in skus_arr:
         # Invalid item
@@ -44,6 +43,7 @@ def checkout(skus):
             summ += item_counter[item] * price_dct[item]
 
     return summ
+
 
 
 
