@@ -5,4 +5,3 @@ class TestHello():
     def test_hello(self):
         assert hello_solution.hello("Jamie") == "Hello, Jamie!"
 
-
