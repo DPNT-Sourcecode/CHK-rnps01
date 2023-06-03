@@ -95,9 +95,25 @@ def checkout(skus):
         item_counter[item] += 1
 
     summ = 0
+    # Free item discounts
     bundle_and_get_free_cnt('E', 2, 'B', item_counter)
     bundle_and_get_free_cnt('N', 3, 'M', item_counter)
     bundle_and_get_free_cnt('R', 3, 'Q', item_counter)
+
+    # Handle special mixed item discount
+    # List is ordered from most to least exp
+    special = ['Z','Y','S','T','X']
+    special_cnt = 0
+    for s in special:
+        special_cnt += item_counter[s]
+    summ += (special_cnt // 3) * 45  # Buy any 3 for 45
+    while special_cnt >= 3:
+        # Always favour customer, so we should deduct the cnt from the most expensive first
+        for s in special:
+            if item_counter[s] > 0:
+                item_counter[s] -= 1
+                continue
+        special_cnt -= 1
 
     for item in item_counter:
         if item == 'A':
@@ -135,3 +151,4 @@ def checkout(skus):
         summ += item_counter[item] * price_dct[item]
 
     return summ
+
