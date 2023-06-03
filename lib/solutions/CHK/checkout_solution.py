@@ -132,7 +132,7 @@ def checkout(skus):
             summ += bundle_and_reduce_inventory(item, 5, 45, item_counter)
 
         elif item == 'K':
-            summ += bundle_and_reduce_inventory(item, 2, 150, item_counter)
+            summ += bundle_and_reduce_inventory(item, 2, 120, item_counter)
 
         elif item == 'P':
             summ += bundle_and_reduce_inventory(item, 5, 200, item_counter)
@@ -151,5 +151,6 @@ def checkout(skus):
         summ += item_counter[item] * price_dct[item]
 
     return summ
+
 
 
