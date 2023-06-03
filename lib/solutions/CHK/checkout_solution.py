@@ -27,12 +27,8 @@ price_dct = {
     'Z': 50,
 }
 
-item_counter = dict()
-for k in price_dct.keys():
-    item_counter[k] = 0
 
-
-def bundle_and_reduce_inventory(item, bundle_cnt, bundle_price):
+def bundle_and_reduce_inventory(item, bundle_cnt, bundle_price, item_counter):
     '''
     Takes in cnt of items and bundle price
     Updates the inventory cnt and returns price of bundled items (that were removed from inventory)
@@ -42,6 +38,14 @@ def bundle_and_reduce_inventory(item, bundle_cnt, bundle_price):
     item_counter[item] %= bundle_cnt
     return full_bundle_price
 
+
+def bundle_and_get_free_cnt(buy_item, bundle_thresh, free_item, item_counter):
+    """
+    Given a buy_item and the bundle_thresh, deducts the item_counter accordingly based on the free_item
+    """
+    free_item_cnt = item_counter[buy_item] // bundle_thresh
+    item_counter[free_item] = max(0, item_counter[free_item] - free_item_cnt)
+    return
 
 
 def checkout(skus):
@@ -79,6 +83,10 @@ def checkout(skus):
     """
     skus_arr = list(skus)
 
+    item_counter = dict()
+    for k in price_dct.keys():
+        item_counter[k] = 0
+
     for item in skus_arr:
         # Invalid item
         if item not in item_counter:
@@ -87,19 +95,44 @@ def checkout(skus):
         item_counter[item] += 1
 
     summ = 0
+    bundle_and_get_free_cnt('E', 2, 'B', item_counter)
+    bundle_and_get_free_cnt('N', 3, 'M', item_counter)
+    bundle_and_get_free_cnt('R', 3, 'Q', item_counter)
+
     for item in item_counter:
         if item == 'A':
-            summ += bundle_and_reduce_inventory(item, 5, 200)
-            summ += bundle_and_reduce_inventory(item, 3, 130)
-            summ += item_counter[item] * price_dct[item]
+            summ += bundle_and_reduce_inventory(item, 5, 200, item_counter)
+            summ += bundle_and_reduce_inventory(item, 3, 130, item_counter)
+
         elif item == 'B':
-            free_b_cnt = item_counter['E'] // 2
-            item_counter[item] = max(0, item_counter[item] - free_b_cnt)
-            summ += (item_counter[item] // 2 * 45) + (item_counter[item] % 2 * price_dct[item])
+            summ += bundle_and_reduce_inventory(item, 2, 45, item_counter)
+
         elif item == 'F':
             # Every 3F bundle counts as 2 of the og price
-            summ += (item_counter[item] // 3 * (price_dct[item] * 2)) + (item_counter[item] % 3 * price_dct[item])
-        else:
-            summ += item_counter[item] * price_dct[item]
+            summ += bundle_and_reduce_inventory(item, 3, price_dct[item] * 2, item_counter)
+
+        elif item == 'H':
+            summ += bundle_and_reduce_inventory(item, 10, 80, item_counter)
+            summ += bundle_and_reduce_inventory(item, 5, 45, item_counter)
+
+        elif item == 'K':
+            summ += bundle_and_reduce_inventory(item, 2, 150, item_counter)
+
+        elif item == 'P':
+            summ += bundle_and_reduce_inventory(item, 5, 200, item_counter)
+
+        elif item == 'Q':
+            summ += bundle_and_reduce_inventory(item, 3, 80, item_counter)
+
+        elif item == 'U':
+            # Every 4U bundle counts as 3 of the og price
+            summ += bundle_and_reduce_inventory(item, 4, price_dct[item] * 3, item_counter)
+
+        elif item == 'V':
+            summ += bundle_and_reduce_inventory(item, 3, 130, item_counter)
+            summ += bundle_and_reduce_inventory(item, 2, 90, item_counter)
+
+        summ += item_counter[item] * price_dct[item]
 
     return summ
+
