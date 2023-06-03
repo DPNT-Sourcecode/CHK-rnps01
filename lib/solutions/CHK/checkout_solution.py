@@ -38,11 +38,12 @@ def checkout(skus):
     for item in item_counter:
         if item == 'A':
             summ += (item_counter[item] // 3 * 130) + (item_counter[item] % 3 * price_dct[item])
-        if item == 'B':
+        elif item == 'B':
             summ += (item_counter[item] // 2 * 45) + (item_counter[item] % 3 * price_dct[item])
         else:
             summ += item_counter[item] * price_dct[item]
 
     return summ
+
 
 

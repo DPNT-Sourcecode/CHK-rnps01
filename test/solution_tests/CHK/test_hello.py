@@ -1,7 +1,13 @@
-from solutions.HLO import hello_solution
+from solutions.CHK import checkout_solution
 
 
-class TestHello():
-    def test_hello(self):
-        assert hello_solution.hello("Jamie") == "Hello, Jamie!"
+class TestCheckout():
+    def test_checkout(self):
+        assert checkout_solution.checkout("A B C A A") == 180
+
+    def test_checkout(self):
+        assert checkout_solution.checkout("A B C A A Z") == -1
+
+
+
 
