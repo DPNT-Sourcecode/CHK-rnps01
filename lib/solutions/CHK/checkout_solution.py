@@ -152,7 +152,3 @@ def checkout(skus):
         summ += item_counter[item] * price_dct[item]
 
     return summ
-
-
-
-
