@@ -7,8 +7,6 @@ price_dct = {
 }
 
 
-# noinspection PyUnusedLocal
-# skus = unicode string
 def checkout(skus):
     """
     +------+-------+------------------------+
@@ -22,7 +20,10 @@ def checkout(skus):
     +------+-------+------------------------+
     """
     skus_arr = list(skus)
-    item_counter = {'A': 0, 'B': 0, 'C': 0, 'D': 0}
+    item_counter = dict()
+    for k in price_dct.keys():
+        item_counter[k] = 0
+
     for item in skus_arr:
         # Invalid item
         if item not in item_counter:
@@ -45,4 +46,5 @@ def checkout(skus):
             summ += item_counter[item] * price_dct[item]
 
     return summ
+
 
