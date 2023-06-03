@@ -44,10 +44,14 @@ def checkout(skus):
             free_b_cnt = item_counter['E'] // 2
             item_counter[item] = max(0, item_counter[item] - free_b_cnt)
             summ += (item_counter[item] // 2 * 45) + (item_counter[item] % 2 * price_dct[item])
+        elif item == 'F':
+            # Every 3F bundle counts as 2 of the og price
+            summ += (item_counter[item] // 3 * (price_dct[item]*2)) + (item_counter[item] % 3 * price_dct[item])
         else:
             summ += item_counter[item] * price_dct[item]
 
     return summ
+
 
 
 
