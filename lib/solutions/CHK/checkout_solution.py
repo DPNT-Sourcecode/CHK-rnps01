@@ -102,7 +102,7 @@ def checkout(skus):
 
     # Handle special mixed item discount
     # List is ordered from most to least exp
-    special = ['Z','Y','S','T','X']
+    special = ['Z', 'Y', 'S', 'T', 'X']
     special_cnt = 0
     for s in special:
         special_cnt += item_counter[s]
@@ -112,7 +112,7 @@ def checkout(skus):
         for s in special:
             if item_counter[s] > 0:
                 item_counter[s] -= 1
-                continue
+                break
         special_cnt -= 1
 
     for item in item_counter:
@@ -151,4 +151,5 @@ def checkout(skus):
         summ += item_counter[item] * price_dct[item]
 
     return summ
+
 
