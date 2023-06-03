@@ -27,6 +27,22 @@ price_dct = {
     'Z': 50,
 }
 
+item_counter = dict()
+for k in price_dct.keys():
+    item_counter[k] = 0
+
+
+def bundle_and_reduce_inventory(item, bundle_cnt, bundle_price):
+    '''
+    Takes in cnt of items and bundle price
+    Updates the inventory cnt and returns price of bundled items (that were removed from inventory)
+    Pls note the side effect of inventory update
+    '''
+    full_bundle_price = (item_counter[item] // bundle_cnt) * bundle_price
+    item_counter[item] %= bundle_cnt
+    return full_bundle_price
+
+
 
 def checkout(skus):
     """
@@ -62,9 +78,6 @@ def checkout(skus):
 +------+-------+------------------------+
     """
     skus_arr = list(skus)
-    item_counter = dict()
-    for k in price_dct.keys():
-        item_counter[k] = 0
 
     for item in skus_arr:
         # Invalid item
@@ -76,10 +89,9 @@ def checkout(skus):
     summ = 0
     for item in item_counter:
         if item == 'A':
-            a_5_price = item_counter[item] // 5 * 200
-            summ += a_5_price
-            item_counter[item] %= 5
-            summ += (item_counter[item] // 3 * 130) + (item_counter[item] % 3 * price_dct[item])
+            summ += bundle_and_reduce_inventory(item, 5, 200)
+            summ += bundle_and_reduce_inventory(item, 3, 130)
+            summ += item_counter[item] * price_dct[item]
         elif item == 'B':
             free_b_cnt = item_counter['E'] // 2
             item_counter[item] = max(0, item_counter[item] - free_b_cnt)
@@ -91,5 +103,6 @@ def checkout(skus):
             summ += item_counter[item] * price_dct[item]
 
     return summ
+
 
 
