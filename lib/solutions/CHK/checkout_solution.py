@@ -3,7 +3,8 @@ price_dct = {
     'B': 30,
     'C': 20,
     'D': 15,
-    'E': 40
+    'E': 40,
+    'F': 10
 }
 
 
@@ -17,6 +18,7 @@ def checkout(skus):
     | C    | 20    |                        |
     | D    | 15    |                        |
     | E    | 40    | 2E get one B free      |
+    | F    | 10    | 2F get one F free      |
     +------+-------+------------------------+
     """
     skus_arr = list(skus)
@@ -46,5 +48,6 @@ def checkout(skus):
             summ += item_counter[item] * price_dct[item]
 
     return summ
+
 
 
