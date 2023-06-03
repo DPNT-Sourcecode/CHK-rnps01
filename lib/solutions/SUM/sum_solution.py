@@ -1,3 +1,5 @@
 # noinspection PyShadowingBuiltins,PyUnusedLocal
 def compute(x, y):
-    raise NotImplementedError()
+    '''Return the sum of x and y where 0 <= x,y <= 100'''
+    return x + y
+
